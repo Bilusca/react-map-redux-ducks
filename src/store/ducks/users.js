@@ -15,6 +15,8 @@ const INITIAL_STATE = {
 
 export default function users(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case Types.ADD_USER:
+      return { ...state, list: [...state.list, action.user] };
     default:
       return state;
   }
@@ -22,7 +24,7 @@ export default function users(state = INITIAL_STATE, action) {
 /**
  * ACTIONS
  */
-const actionCreators = {
+export const actionCreators = {
   addUser: user => ({
     type: Types.ADD_USER,
     payload: {
