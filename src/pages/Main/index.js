@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import MapGL, { Marker } from "react-map-gl";
+import Modal from "react-modal";
 
 import "./index.css";
 import UserList from "../../components/UserList";
@@ -72,6 +73,13 @@ export default class Main extends Component {
             </Marker>
           </MapGL>
         </div>
+        <Modal isOpen={true} className="modal" overlayClassName="modal-overlay">
+          <input type="text" />
+          <div className="actions">
+            <button>cancelar</button>
+            <button>adicionar</button>
+          </div>
+        </Modal>
       </Fragment>
     );
   }
