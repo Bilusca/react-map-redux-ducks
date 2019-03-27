@@ -1,7 +1,7 @@
 import { call, put } from "redux-saga/effects";
 import api from "../../services/api";
 
-import { Creator as UsersCreator } from "../ducks/users";
+import { actionCreators as UsersCreator } from "../ducks/users";
 
 export function* addUser(action) {
   try {
@@ -9,7 +9,7 @@ export function* addUser(action) {
 
     const userData = {};
 
-    yield put(UsersCreator.addUserSuccess(userData));
+    yield put(UsersCreator.addUserSuccess(data));
   } catch {
     yield put(UsersCreator.addUserFailure("Erro ao adicionar um usuário"));
   }

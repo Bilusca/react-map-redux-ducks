@@ -1,13 +1,17 @@
 import React, { Component, Fragment } from "react";
 import MapGL, { Marker } from "react-map-gl";
 import Modal from "react-modal";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators as UserCreators } from "../../store/ducks/users";
 
 import "./index.css";
 import UserList from "../../components/UserList";
 // import "mapbox/dist/mapbox-gl.css";
 
-export default class Main extends Component {
+class Main extends Component {
   state = {
+    name: "",
     viewport: {
       width: window.innerWidth,
       height: window.innerHeight,
@@ -42,7 +46,14 @@ export default class Main extends Component {
     alert(`Lat: ${latitude} Long: ${longitude}`);
   };
 
+  handleAddUser = e => {
+    e.preventDefault();
+    this.props.addUserRequest(this.state.name);
+  };
+
   render() {
+    const { name } = this.state;
+
     return (
       <Fragment>
         <div style={{ width: window.innerWidth, height: window.innerHeight }}>
@@ -74,13 +85,29 @@ export default class Main extends Component {
           </MapGL>
         </div>
         <Modal isOpen={true} className="modal" overlayClassName="modal-overlay">
-          <input type="text" />
+          <input
+            type="text"
+            value={name}
+            onChange={e => this.setState({ name: e.target.value })}
+          />
           <div className="actions">
             <button>cancelar</button>
-            <button>adicionar</button>
+            <button onClick={this.handleAddUser}>adicionar</button>
           </div>
         </Modal>
       </Fragment>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  users: state.users
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(UserCreators, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);
