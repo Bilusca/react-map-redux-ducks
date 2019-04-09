@@ -18,7 +18,8 @@ class Main extends Component {
       latitude: -23.5439948,
       longitude: -46.6065452,
       zoom: 14
-    }
+    },
+    modalState: false
   };
 
   componentDidMount() {
@@ -43,7 +44,7 @@ class Main extends Component {
   handleMapClick = e => {
     const [latitude, longitude] = e.lngLat;
 
-    alert(`Lat: ${latitude} Long: ${longitude}`);
+    this.setState({ modalState: true });
   };
 
   handleAddUser = e => {
@@ -52,7 +53,7 @@ class Main extends Component {
   };
 
   render() {
-    const { name } = this.state;
+    const { name, modalState } = this.state;
 
     return (
       <Fragment>
@@ -84,14 +85,20 @@ class Main extends Component {
             </Marker>
           </MapGL>
         </div>
-        <Modal isOpen={true} className="modal" overlayClassName="modal-overlay">
+        <Modal
+          isOpen={modalState}
+          className="modal"
+          overlayClassName="modal-overlay"
+        >
           <input
             type="text"
             value={name}
             onChange={e => this.setState({ name: e.target.value })}
           />
           <div className="actions">
-            <button>cancelar</button>
+            <button onClick={() => this.setState({ modalState: false })}>
+              cancelar
+            </button>
             <button onClick={this.handleAddUser}>adicionar</button>
           </div>
         </Modal>
