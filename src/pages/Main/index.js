@@ -7,6 +7,7 @@ import { actionCreators as UserCreators } from "../../store/ducks/users";
 
 import "./index.css";
 import UserList from "../../components/UserList";
+import Loading from "../../components/Loading";
 // import "mapbox/dist/mapbox-gl.css";
 
 class Main extends Component {
@@ -19,6 +20,8 @@ class Main extends Component {
       longitude: -46.6065452,
       zoom: 14
     },
+    longitude: null,
+    latitude: null,
     modalState: false
   };
 
@@ -44,20 +47,31 @@ class Main extends Component {
   handleMapClick = e => {
     const [latitude, longitude] = e.lngLat;
 
-    this.setState({ modalState: true });
+    this.setState({ modalState: true, latitude, longitude });
   };
 
   handleAddUser = e => {
+    const { name, latitude, longitude } = this.state;
     e.preventDefault();
-    this.props.addUserRequest(this.state.name);
+
+    this.props.addUserRequest(name, latitude, longitude);
+
+    this.setState({
+      modalState: false,
+      latitude: null,
+      longitude: null,
+      name: ""
+    });
   };
 
   render() {
     const { name, modalState } = this.state;
+    const { users } = this.props;
 
     return (
       <Fragment>
         <div style={{ width: window.innerWidth, height: window.innerHeight }}>
+          {users.loading && <Loading />}
           <UserList />
           <MapGL
             {...this.state.viewport}
@@ -68,21 +82,24 @@ class Main extends Component {
             }
             onViewportChange={viewport => this.setState({ viewport })}
           >
-            <Marker
-              latitude={-23.5439948}
-              longitude={-46.6065452}
-              onClick={this.handleMapClick}
-              captureClick={true}
-            >
-              <img
-                style={{
-                  borderRadius: 100,
-                  width: 48,
-                  height: 48
-                }}
-                src="https://avatars2.githubusercontent.com/u/2254731?v=4"
-              />
-            </Marker>
+            {users.list.map(user => (
+              <Marker
+                latitude={user.latitude}
+                longitude={user.longitude}
+                onClick={this.handleMapClick}
+                captureClick={true}
+              >
+                <img
+                  style={{
+                    borderRadius: 100,
+                    width: 48,
+                    height: 48
+                  }}
+                  src={user.avatar}
+                  alt={user.name}
+                />
+              </Marker>
+            ))}
           </MapGL>
         </div>
         <Modal

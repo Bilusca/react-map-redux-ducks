@@ -7,9 +7,15 @@ export function* addUser(action) {
   try {
     const { data } = yield call(api.get, `users/${action.payload.user}`);
 
-    const userData = {};
+    const userData = {
+      longitude: action.payload.longitude,
+      latitude: action.payload.latitude,
+      login: data.login,
+      avatar: data.avatar_url,
+      name: data.name
+    };
 
-    yield put(UsersCreator.addUserSuccess(data));
+    yield put(UsersCreator.addUserSuccess(userData));
   } catch {
     yield put(UsersCreator.addUserFailure("Erro ao adicionar um usuário"));
   }

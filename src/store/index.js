@@ -22,7 +22,13 @@ const reactoTronRedux =
 
 middlewares.push(sagaMiddleware);
 
-const store = createStore(reducers, compose(applyMiddleware(...middlewares)));
+const store = createStore(
+  reducers,
+  compose(
+    applyMiddleware(...middlewares),
+    reactoTronRedux
+  )
+);
 sagaMiddleware.run(rootSaga);
 
 export default store;
