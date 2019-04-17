@@ -8,7 +8,7 @@ import { actionCreators as UserCreators } from "../../store/ducks/users";
 import "./index.css";
 import UserList from "../../components/UserList";
 import Loading from "../../components/Loading";
-// import "mapbox/dist/mapbox-gl.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 class Main extends Component {
   state = {
@@ -16,8 +16,8 @@ class Main extends Component {
     viewport: {
       width: window.innerWidth,
       height: window.innerHeight,
-      latitude: -23.5439948,
-      longitude: -46.6065452,
+      latitude: -16.6799,
+      longitude: -49.255,
       zoom: 14
     },
     longitude: null,
@@ -47,7 +47,13 @@ class Main extends Component {
   handleMapClick = e => {
     const [latitude, longitude] = e.lngLat;
 
-    this.setState({ modalState: true, latitude, longitude });
+    alert(`latitude: ${latitude} longitude: ${longitude}`);
+
+    this.setState({
+      modalState: true,
+      latitude: latitude,
+      longitude: longitude
+    });
   };
 
   handleAddUser = e => {
@@ -84,20 +90,15 @@ class Main extends Component {
           >
             {users.list.map(user => (
               <Marker
+                key={user.login}
                 latitude={user.latitude}
                 longitude={user.longitude}
                 onClick={this.handleMapClick}
                 captureClick={true}
               >
-                <img
-                  style={{
-                    borderRadius: 100,
-                    width: 48,
-                    height: 48
-                  }}
-                  src={user.avatar}
-                  alt={user.name}
-                />
+                <p>
+                  {user.latitude} / {user.longitude}
+                </p>
               </Marker>
             ))}
           </MapGL>
