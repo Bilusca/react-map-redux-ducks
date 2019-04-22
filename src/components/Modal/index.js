@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Modal from "react-modal";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 class ModalApp extends Component {
   state = {
