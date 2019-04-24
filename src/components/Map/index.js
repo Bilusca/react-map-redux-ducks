@@ -55,14 +55,14 @@ class Map extends Component {
       >
         {users.list.map(user => (
           <Marker
-            key={user.login}
-            latitude={user.latitude}
-            longitude={user.longitude}
+            key={user.id}
+            latitude={user.cordinates.latitude}
+            longitude={user.cordinates.longitude}
             onClick={this.handleMapClick}
             captureClick={true}
           >
             <p>
-              {user.latitude} / {user.longitude}
+              {user.cordinates.latitude} / {user.cordinates.longitude}
             </p>
           </Marker>
         ))}

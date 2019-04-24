@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import Modal from "react-modal";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators as UserCreators } from "../../store/ducks/users";
+import { actionCreators as ModalCreators } from "../../store/ducks/modal";
+
+import "./index.css";
 
 class ModalApp extends Component {
   state = {
@@ -23,10 +28,12 @@ class ModalApp extends Component {
           onChange={e => this.setState({ name: e.target.value })}
         />
         <div className="actions">
-          <button onClick={() => this.setState({ modalState: false })}>
-            cancelar
+          <button onClick={() => this.props.closeModal()}>cancelar</button>
+          <button
+            onClick={() => this.props.addUserRequest(name, modal.cordinates)}
+          >
+            adicionar
           </button>
-          <button onClick={this.handleAddUser}>adicionar</button>
         </div>
       </Modal>
     );
@@ -37,4 +44,10 @@ const mapStateToProps = state => ({
   modal: state.modal
 });
 
-export default connect(mapStateToProps)(ModalApp);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ ...UserCreators, ...ModalCreators }, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ModalApp);

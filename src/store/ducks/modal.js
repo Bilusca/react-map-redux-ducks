@@ -5,7 +5,7 @@ export const Types = {
 
 const INITIAL_STATE = {
   open: false,
-  coordinates: {}
+  cordinates: {}
 };
 
 export default function modal(state = INITIAL_STATE, action) {
@@ -13,7 +13,7 @@ export default function modal(state = INITIAL_STATE, action) {
     case Types.OPEN_MODAL:
       return {
         open: true,
-        coordinates: { ...action.payload.coordinates }
+        cordinates: { ...action.payload.cordinates }
       };
     case Types.CLOSE_MODAL:
       return {
@@ -26,10 +26,10 @@ export default function modal(state = INITIAL_STATE, action) {
 }
 
 export const actionCreators = {
-  openModal: coordinates => ({
+  openModal: cordinates => ({
     type: Types.OPEN_MODAL,
     payload: {
-      coordinates
+      cordinates
     }
   }),
   closeModal: () => ({
